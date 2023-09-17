@@ -1,4 +1,5 @@
-    #include <stdio.h>
+//To reverse the file contents and store in another file. Also display the size of file using file handling function.
+#include <stdio.h>
 
 int main() {
     FILE *originalFile, *reversedFile;
