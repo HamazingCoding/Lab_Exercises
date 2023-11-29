@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream> 
 
-// Define an array of predefined verbs
+
 char *verbs[] = {
     "run", "jump", "eat", "write", "read", "sing", "dance", "sleep", "swim", "talk"
 };
-int numVerbs = sizeof(verbs) / sizeof(verbs[0]); // Calculate the number of verbs in the array
-
+int numVerbs = sizeof(verbs) / sizeof(verbs[0]); 
 // Function to check if a word is a verb from the predefined array
 int isVerb(char *word) {
     for (int i = 0; i < numVerbs; i++) {
@@ -26,20 +26,24 @@ int main() {
 
     // Tokenize the input statement to extract words
     char *token = strtok(input, " ");
-    while (token != NULL) {
-        // Remove newline character from the token
-        char *newline = strchr(token, '\n');
-        if (newline != NULL) {
-            *newline = '\0';
-        }
+    if{
+        while (token != NULL) {
+            // Remove newline character from the token
+            char *newline = strchr(token, '\n');
+            if (newline != NULL) {
+                *newline = '\0';
+            }
 
-        // Check if the token is a verb from the predefined array
-        if (isVerb(token)) {
-            printf("Verb '%s' found\n", token);
-        }
+            // Check if the token is a verb from the predefined array
+            if (isVerb(token)) {
+                printf("Verb '%s' found\n", token);
+            }
 
-        token = strtok(NULL, " ");
+            token = strtok(NULL, " ");
+        }
     }
-
+    else{
+        cout << "Invalid";
+    }
     return 0;
-}
+};

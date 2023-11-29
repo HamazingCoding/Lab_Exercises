@@ -2,35 +2,40 @@
 #include <stdlib.h>
 
 int main() {
-    FILE *inputFile = fopen("input.txt", "r");
+    FILE *inputFile, *outputFile;
+    char inputFileName[] = "input.txt";     
+    char outputFileName[] = "output.txt";   
 
-    if(inputFile == NULL) {
-        perror("Error opening input file");
+    inputFile = fopen(inputFileName, "r");
+    outputFile = fopen(outputFileName, "w");
+
+    if (inputFile == NULL || outputFile == NULL) {
+        perror("Error opening files");
         return 1;
     }
 
-    FILE *outputFile = fopen("output.txt", "w");
+    int prevChar = ' ';  
 
-    if(outputFile == NULL) {
-        perror("Error opening output file");
-        return 1;
-    }
+    int currentChar;
+    while ((currentChar = fgetc(inputFile)) != EOF) {
+        
+        if (currentChar == ' ' || currentChar == '\t') {
+            
+            if (prevChar != ' ') {
+                fputc(' ', outputFile);
+            }
+        } else {
+            
+            fputc(currentChar, outputFile);
+        }
 
-    int character;
-    while ((character = fgetc(inputFile)) != EOF)
-    {
-        if (character == ' ' || character == '\t') {
-            fputc(' ', outputFile);
-        }
-        else 
-        {
-            fputc(character, outputFile);
-        }
+        prevChar = currentChar;  
     }
 
     fclose(inputFile);
     fclose(outputFile);
-    
+
+    printf("Spaces and tabs replaced in '%s' and saved to '%s'.\n", inputFileName, outputFileName);
 
     return 0;
 }

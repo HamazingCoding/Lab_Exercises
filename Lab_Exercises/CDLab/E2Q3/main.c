@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
 
@@ -10,35 +11,37 @@ char *keywords[] = {
     "unsigned", "void", "volatile", "while"
 };
 
+int isKeyword(char *word) {
+    for (int i = 0; i < sizeof(keywords) / sizeof(keywords[0]); i++) {
+        if (strcmp(word, keywords[i]) == 0) {
+            return 1;  
+        }
+    }
+    return 0;  
+}
+
 int main() {
     FILE *inputFile;
-    inputFile = fopen("input.c", "r");
+    char fileName[] = "input.c";  
+
+    inputFile = fopen(fileName, "r");
 
     if (inputFile == NULL) {
         perror("Error opening input file");
         return 1;
     }
 
-    char line[1024]; // Buffer to store each line
+    char word[100];  
 
-    while (fgets(line, sizeof(line), inputFile) != NULL) {
-        char *token = strtok(line, " \t\n"); // Tokenize the line
+    while (fscanf(inputFile, "%s", word) != EOF) {
+        
+        for (int i = 0; word[i]; i++) {
+            word[i] = toupper(word[i]);
+        }
 
-        while (token != NULL) {
-            // Convert the token to uppercase
-            for (int i = 0; token[i]; i++) {
-                token[i] = toupper(token[i]);
-            }
-
-            // Check if the token is a C keyword
-            for (int i = 0; i < sizeof(keywords) / sizeof(keywords[0]); i++) {
-                if (strcmp(token, keywords[i]) == 0) {
-                    printf("%s\n", token);
-                    break;
-                }
-            }
-
-            token = strtok(NULL, " \t\n"); // Get the next token
+       
+        if (isKeyword(word)) {
+            printf("Keyword Found: %s\n", word);  
         }
     }
 
